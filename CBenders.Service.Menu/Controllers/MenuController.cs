@@ -14,54 +14,44 @@ public class MenuController : ControllerBase
 {
     private IMenuRepositories menu;
     private IConvertModel convert;
-    private MenuResponse response;
-
     public MenuController(IMenuRepositories menuRepositories, IConvertModel convertModel)
     {
         menu = menuRepositories;
         convert = convertModel;
-        response = new MenuResponse();
     }
 
-    [HttpGet("/GetAll")]
-    public async Task<ActionResult> GetAll()
+    [HttpGet("/All")]
+    public async Task<ActionResult> GetMenuItems()
     {
-        response.Data = convert.GetList(await menu.GetAll());
-        return Ok(response);
+        var result = await menu.GetAll();
+        if (result.Any()) return Ok(convert.GetList(result));
+        else return NoContent();
     }
-    [HttpGet("/Get{id:int}")]
-    public async Task<ActionResult> Get([FromRoute] int id)
+    [HttpGet("/Get/{id:int}")]
+    public async Task<ActionResult> MenuItem([FromRoute] int id)
     {
         var menuItem = await menu.Get(id);
-        if (menuItem == null)
-        {
-            response.IsSuccess = false;
-            response.StatusCode = System.Net.HttpStatusCode.NotFound;
-        }
-        else response.Data = convert.GetSingle(menuItem);
-        
-        return Ok(response);
+        if (menuItem != null) return Ok(convert.GetSingle(menuItem));
+        else return NoContent();
     }
     [HttpPut("/Update")]
     public async Task<ActionResult> Update([FromBody] MenuItems item)
     {
-        response.Data = convert.GetSingle(await menu.Update(item));
-        response.StatusCode = System.Net.HttpStatusCode.OK;
-        return Ok(response);
+        var menuItem = await menu.Update(item);
+        if (menuItem != null) return Ok(convert.GetSingle(menuItem));
+        else return NoContent();
     }
     [HttpDelete("/Delete{id:int}")]
     public async Task<ActionResult> Delete([FromRoute] int id)
     {
-        bool isDeleted = await menu.Delete(id);
-        response.IsSuccess = isDeleted ? true : false;
-        response.StatusCode = System.Net.HttpStatusCode.NoContent;
-        return Ok(response);
+        if(await menu.Delete(id)) return Ok();
+        else return NoContent();
     }
     [HttpPost("/Create")]
     public async Task<ActionResult> Create([FromBody] MenuItems item)
     {
-        response.Data = convert.GetSingle(await menu.Create(item));
-        response.StatusCode = System.Net.HttpStatusCode.Created;
-        return Ok(response);
+        var newItem = await menu.Create(item);
+        if(newItem.Id == 0) return BadRequest();
+        else return Ok(newItem);
     }
 }
