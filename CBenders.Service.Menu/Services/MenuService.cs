@@ -12,7 +12,7 @@ public class MenuService : IMenuRepositories
     private MenuContext context;
     private ILogger<MenuService> logger;
 
-    public MenuService(MenuContext db, ILogger<MenuService> log, IConvertModel convertModel)
+    public MenuService(MenuContext db, ILogger<MenuService> log)
     {
         context = db;
         logger = log;
@@ -22,7 +22,7 @@ public class MenuService : IMenuRepositories
     {
         await context.Menu.AddAsync(item);
         await context.SaveChangesAsync();
-        item.Id = context.Menu.Count() > 0 ? context.Menu.Max(x => x.Id) : 1;
+        item.Id = context.Menu.Any() ? context.Menu.Max(x => x.Id) : 1;
         return item;
     }
 
