@@ -6,3 +6,33 @@
     <h1 class="display-4">Welcome</h1>
     <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
 </div>
+<div>
+    <form method="post">
+        <button type="submit" id="getMenu" class="btn btn-primary" name="action" value="getMenu">Получить данные</button>
+    </form>
+</div>
+<div id="currencyInfo">
+    @if (Model.CurrencyData != null)
+    {
+        <div>
+            <h3>Название: @Model.CurrencyData.Name</h3>
+            <h3>Курс: @Model.CurrencyData.Price</h3>
+        </div>
+    }
+    else if (Model.AllCurrencies != null && Model.AllCurrencies.Any())
+    {
+        <h3>Список всех валют:</h3>
+        <ul>
+            @foreach (var currency in Model.AllCurrencies)
+            {
+                <li>@currency.CharCode - @currency.Name (Курс: @currency.Value)</li>
+            }
+        </ul>
+    }
+    else if (!ViewData.ModelState.IsValid)
+    {
+        <div>
+            <h3>Ошибка получения данных</h3>
+        </div>
+    }
+</div>

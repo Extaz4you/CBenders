@@ -7,15 +7,9 @@ namespace CBenders.Web.Controllers;
 
 public class MenuController : Controller
 {
-    private IApiClient<MenuDto, int> apiClient;
 
-    public MenuController(MenuClient menuClient)
-    {
-        apiClient = menuClient;
-    }
     public async Task<ActionResult> Index()
     {
-        var x = await apiClient.All();
         return View();
     }
 }

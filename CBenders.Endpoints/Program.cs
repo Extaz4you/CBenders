@@ -1,23 +1,27 @@
 
-using CBenders.Service.Menu.Db;
-using CBenders.Service.Menu.Repository;
-using CBenders.Service.Menu.Services;
-using Microsoft.EntityFrameworkCore;
+using CBenders.Endpoints.Models;
+using CBenders.Endpoints.Services;
+using CBenders.Endpoints.Services.Interfaces;
+using System.Net.Http.Headers;
 
-namespace CBenders.Service.Menu
+namespace CBenders.Endpoints
 {
     public class Program
     {
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
+
+
             builder.Services.AddControllers();
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
-            //builder.Services.AddDbContext<MenuContext>(o => o.UseSqlServer(builder.Configuration.GetConnectionString("Connection")));
-            builder.Services.AddDbContext<MenuContext>(o => o.UseNpgsql(builder.Configuration.GetConnectionString("Connection2")));
-            builder.Services.AddScoped<IMenuRepositories, MenuService>();
-            builder.Services.AddScoped<IConvertModel, ConvertService>();
+            builder.Services.AddHttpClient<MenuService>(cl =>
+            {
+                cl.BaseAddress = new Uri(builder.Configuration["ServicesApi:MenuAPI"]);
+                cl.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+            });
+            
             var app = builder.Build();
 
             if (app.Environment.IsDevelopment())
@@ -27,7 +31,9 @@ namespace CBenders.Service.Menu
             }
 
             app.UseHttpsRedirection();
+
             app.UseAuthorization();
+
 
             app.MapControllers();
 
