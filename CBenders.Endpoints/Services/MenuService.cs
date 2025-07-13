@@ -2,7 +2,7 @@
 
 namespace CBenders.Endpoints.Services;
 
-public class MenuService : BaseService<MenuDto, int>
+public class MenuService : BaseService<MenuItem, int>
 {
     public MenuService(HttpClient httpClient) : base(httpClient, "api/Menu")
     {

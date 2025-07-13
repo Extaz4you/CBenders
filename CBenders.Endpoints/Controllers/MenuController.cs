@@ -10,7 +10,7 @@ namespace CBenders.Endpoints.Controllers
     [ApiController]
     public class MenuController : ControllerBase
     {
-        private IApiService<MenuDto, int> service;
+        private IApiService<MenuItem, int> service;
 
         public MenuController(MenuService menuService)
         {
@@ -21,6 +21,26 @@ namespace CBenders.Endpoints.Controllers
         public async Task<ActionResult> AllMenu()
         {
             return Ok(await service.GetAllAsync());
+        }
+        [HttpGet("Get")]
+        public async Task<ActionResult> GetById(int id)
+        {
+            return Ok(await service.GetByIdAsync(id));
+        }
+        [HttpDelete("Delete/{id:int}")]
+        public async Task<ActionResult> Delete(int id)
+        {
+            return Ok(await service.DeleteAsync(id));
+        }
+        [HttpPut("Update")]
+        public async Task<ActionResult> Update([FromBody] MenuItem menuItem)
+        {
+            return Ok(await service.UpdateAsync(menuItem));
+        }
+        [HttpPost("Create")]
+        public async Task<ActionResult> Create([FromBody] MenuItem menuItem)
+        {
+            return Ok(await service.CreateAsync(menuItem));
         }
     }
 }

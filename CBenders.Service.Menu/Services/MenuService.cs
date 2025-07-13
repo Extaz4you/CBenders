@@ -35,23 +35,25 @@ public class MenuService : IMenuRepositories
             await context.SaveChangesAsync();
             return true;
         }
-        return false;
+        else return false;
     }
+        
 
-    public async Task<MenuItems> Get(int id) =>  await context.Menu.FirstOrDefaultAsync(x => x.Id == id);
+    public async Task<MenuItems> Get(int id) => await context.Menu.FirstOrDefaultAsync(x => x.Id == id);
 
     public async Task<IEnumerable<MenuItems>> GetAll() => await context.Menu.ToListAsync();
 
     public async Task<MenuItems> Update(MenuItems item)
     {
         var updatedItem = await context.Menu.FirstOrDefaultAsync(x => x.Id == item.Id);
+        updatedItem ??= await context.Menu.FirstOrDefaultAsync(x => x.Name == item.Name);
         if (updatedItem != null)
         {
             context.Update(item);
             await context.SaveChangesAsync();
             return item;
         }
-        else return null;
+        else return new MenuItems();
     }
 
 }

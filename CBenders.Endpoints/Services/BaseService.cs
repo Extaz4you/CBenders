@@ -15,7 +15,7 @@ public class BaseService<TDto, TId> : IApiService<TDto, TId> where TDto : class
     }
     public async Task<TDto> CreateAsync(TDto dto)
     {
-        var response = await client.PutAsJsonAsync($"{apiEndpoint}/Create", dto);
+        var response = await client.PostAsJsonAsync($"{apiEndpoint}/Create", dto);
 
         response.EnsureSuccessStatusCode();
         return await response.Content.ReadFromJsonAsync<TDto>();
@@ -23,8 +23,9 @@ public class BaseService<TDto, TId> : IApiService<TDto, TId> where TDto : class
 
     public async Task<bool> DeleteAsync(TId id)
     {
-        var response = await client.GetAsync($"{apiEndpoint}/Delete/{id}");
-        if(response.IsSuccessStatusCode) return true;
+        var response = await client.DeleteAsync($"{apiEndpoint}/Delete/{id}");
+        response.EnsureSuccessStatusCode();
+        if (response.IsSuccessStatusCode) return true;
         return false;
     }
 
@@ -43,10 +44,16 @@ public class BaseService<TDto, TId> : IApiService<TDto, TId> where TDto : class
         return await response.Content.ReadFromJsonAsync<TDto>();
     }
 
-    public async Task<TDto> UpdateAsync(TDto dto)
+    public async Task<TDto?> UpdateAsync(TDto dto)
     {
         var response = await client.PutAsJsonAsync($"{apiEndpoint}/Update", dto);
         response.EnsureSuccessStatusCode();
+
+        if (response.StatusCode == System.Net.HttpStatusCode.NoContent)
+        {
+            return default;
+        }
+
         return await response.Content.ReadFromJsonAsync<TDto>();
     }
 }
