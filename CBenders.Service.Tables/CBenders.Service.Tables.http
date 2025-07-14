@@ -1,4 +1,4 @@
-@CBenders.Service.Tables_HostAddress = http://localhost:5242
+@CBenders.Service.Tables_HostAddress = http://localhost:5656
 
 GET {{CBenders.Service.Tables_HostAddress}}/weatherforecast/
 Accept: application/json

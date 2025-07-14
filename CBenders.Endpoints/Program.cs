@@ -1,7 +1,6 @@
 
 using CBenders.Endpoints.Models;
 using CBenders.Endpoints.Services;
-using CBenders.Endpoints.Services.Interfaces;
 using System.Net.Http.Headers;
 
 namespace CBenders.Endpoints
@@ -19,6 +18,11 @@ namespace CBenders.Endpoints
             builder.Services.AddHttpClient<MenuService>(cl =>
             {
                 cl.BaseAddress = new Uri(builder.Configuration["ServicesApi:MenuAPI"]);
+                cl.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+            });
+            builder.Services.AddHttpClient<TableService>(cl =>
+            {
+                cl.BaseAddress = new Uri(builder.Configuration["ServicesApi:TablesAPI"]);
                 cl.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
             });
             
