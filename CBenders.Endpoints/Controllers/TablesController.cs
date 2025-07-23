@@ -22,21 +22,25 @@ public class TablesController : ControllerBase
     {
         return Ok(await service.GetAllAsync());
     }
+
     [HttpGet("Get")]
     public async Task<ActionResult> GetById(int id)
     {
         return Ok(await service.GetByIdAsync(id));
     }
+
     [HttpDelete("Delete/{id:int}")]
     public async Task<ActionResult> Delete(int id)
     {
         return Ok(await service.DeleteAsync(id));
     }
+
     [HttpPut("Update")]
     public async Task<ActionResult> Update([FromBody] Tables table)
     {
         return Ok(await service.UpdateAsync(table));
     }
+
     [HttpPost("Create")]
     public async Task<ActionResult> Create([FromBody] Tables table)
     {

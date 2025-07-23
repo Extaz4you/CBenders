@@ -14,17 +14,17 @@ namespace CBenders.Service.Tables.Controllers
         {
             service = tablesService;
         }
-        [HttpGet]
+        [HttpGet("All")]
         public async Task<IEnumerable<TablesModel>> All()
         {
             return await service.All();
         }
-        [HttpGet("{id:int}")]
+        [HttpGet("Get/{id:int}")]
         public async Task<TablesModel> Get(int id)
         {
             return await service.GetById(id);
         }
-        [HttpDelete("{id:int}")]
+        [HttpDelete("Delete/{id:int}")]
         public async Task<bool> Delete(int id)
         {
             if (service.Delete(id).IsFaulted == false)
@@ -34,14 +34,14 @@ namespace CBenders.Service.Tables.Controllers
             }
             else return false;
         }
-        [HttpPut]
+        [HttpPut("Update")]
         public async Task<TablesModel> Update(TablesModel model)
         {
             await service.Update(model);
             await service.SaveAsync();
             return model;
         }
-        [HttpPost]
+        [HttpPost("Create")]
         public async Task<TablesModel> Create(TablesModel model)
         {
             await service.Create(model);
