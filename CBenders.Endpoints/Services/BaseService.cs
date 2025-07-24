@@ -38,7 +38,6 @@ public class BaseService<TDto, TId> : IApiService<TDto, TId> where TDto : class
 
     public async Task<TDto> GetByIdAsync(TId id)
     {
-
         var response = await client.GetAsync($"{apiEndpoint}/Get/{id}");
         response.EnsureSuccessStatusCode();
         return await response.Content.ReadFromJsonAsync<TDto>();

@@ -20,12 +20,19 @@ namespace CBenders.Endpoints
                 cl.BaseAddress = new Uri(builder.Configuration["ServicesApi:MenuAPI"]);
                 cl.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
             });
+
             builder.Services.AddHttpClient<TableService>(cl =>
             {
                 cl.BaseAddress = new Uri(builder.Configuration["ServicesApi:TablesAPI"]);
                 cl.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
             });
-            
+
+            builder.Services.AddHttpClient<OrderService>(cl =>
+            {
+                cl.BaseAddress = new Uri(builder.Configuration["ServicesApi:OrderAPI"]);
+                cl.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+            });
+
             var app = builder.Build();
 
             if (app.Environment.IsDevelopment())
