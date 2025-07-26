@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace CBenders.Service.Menu.Services;
 
-public class ConvertService : IConvertModel
+public class ConvertModel
 {
     public IEnumerable<ViewModel> GetList(IEnumerable<MenuItems> items) 
         => items.Select(x => new ViewModel(x)).ToList();

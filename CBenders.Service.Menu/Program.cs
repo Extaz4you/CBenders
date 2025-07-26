@@ -17,7 +17,6 @@ namespace CBenders.Service.Menu
             //builder.Services.AddDbContext<MenuContext>(o => o.UseSqlServer(builder.Configuration.GetConnectionString("Connection")));
             builder.Services.AddDbContext<MenuContext>(o => o.UseNpgsql(builder.Configuration.GetConnectionString("Connection2")));
             builder.Services.AddScoped<IMenuRepositories, MenuService>();
-            builder.Services.AddScoped<IConvertModel, ConvertService>();
             var app = builder.Build();
 
             if (app.Environment.IsDevelopment())

@@ -1,6 +1,8 @@
 
 using CBenders.Endpoints.Models;
 using CBenders.Endpoints.Services;
+using Serilog;
+using Serilog.Sinks.Elasticsearch;
 using System.Net.Http.Headers;
 
 namespace CBenders.Endpoints
@@ -11,6 +13,21 @@ namespace CBenders.Endpoints
         {
             var builder = WebApplication.CreateBuilder(args);
 
+            
+            Log.Logger = new LoggerConfiguration()
+                .WriteTo.Elasticsearch(new ElasticsearchSinkOptions(new Uri(builder.Configuration["SerilogWeb"]))
+                {
+                    IndexFormat = "gateway-logs-{0:yyyy.MM.dd}",
+                    AutoRegisterTemplate = true,
+                    MinimumLogEventLevel = Serilog.Events.LogEventLevel.Information,
+                })
+                .Enrich.WithProperty("Service", "Gateway") 
+                .Enrich.FromLogContext()  
+                .CreateLogger();
+
+            builder.Host.UseSerilog();
+
+            builder.Host.UseSerilog();
 
             builder.Services.AddControllers();
             builder.Services.AddEndpointsApiExplorer();

@@ -14,8 +14,8 @@ namespace CBenders.Service.Menu.Controllers;
 public class MenuController : ControllerBase
 {
     private IMenuRepositories menu;
-    private IConvertModel convert;
-    public MenuController(IMenuRepositories menuRepositories, IConvertModel convertModel)
+    private ConvertModel convert;
+    public MenuController(IMenuRepositories menuRepositories, ConvertModel convertModel)
     {
         menu = menuRepositories;
         convert = convertModel;

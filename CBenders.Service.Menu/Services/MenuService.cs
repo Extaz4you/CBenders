@@ -22,7 +22,6 @@ public class MenuService : IMenuRepositories
     {
         await context.Menu.AddAsync(item);
         await context.SaveChangesAsync();
-        item.Id = context.Menu.Any() ? context.Menu.Max(x => x.Id) : 1;
         return item;
     }
 
