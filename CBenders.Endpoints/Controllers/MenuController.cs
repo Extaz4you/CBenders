@@ -11,18 +11,15 @@ namespace CBenders.Endpoints.Controllers;
 public class MenuController : ControllerBase
 {
     private IApiService<MenuItem, int> service;
-    private ILogger<MenuController> logger;
 
-    public MenuController(MenuService menuService, ILogger<MenuController> log)
+    public MenuController(MenuService menuService)
     {
         service = menuService;
-        logger = log;
     }
 
     [HttpGet("All")]
     public async Task<ActionResult> AllMenu()
     {
-        logger.Log(LogLevel.Information, "try get all");
         return Ok(await service.GetAllAsync());
     }
 

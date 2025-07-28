@@ -4,6 +4,6 @@ namespace CBenders.Endpoints.Services;
 
 public class TableService: BaseService<Tables, int>
 {
-    public TableService(HttpClient httpClient) : base(httpClient, "api/Tables") { }
+    public TableService(HttpClient httpClient, ILogger<BaseService<Tables, int>> log) : base(httpClient, "api/Tables", log) { }
 
 }

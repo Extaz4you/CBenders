@@ -4,7 +4,9 @@ namespace CBenders.Endpoints.Services;
 
 public class MenuService : BaseService<MenuItem, int>
 {
-    public MenuService(HttpClient httpClient) : base(httpClient, "api/Menu")
+    private ILogger<MenuService> logger;
+    public MenuService(HttpClient httpClient, ILogger<BaseService<MenuItem, int>> log) : base(httpClient, "api/Menu", log)
     {
+
     }
 }

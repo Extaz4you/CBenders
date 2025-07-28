@@ -27,8 +27,6 @@ namespace CBenders.Endpoints
 
             builder.Host.UseSerilog();
 
-            builder.Host.UseSerilog();
-
             builder.Services.AddControllers();
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
@@ -57,7 +55,7 @@ namespace CBenders.Endpoints
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }
-
+            app.UseMiddleware<CorrelationIdMiddleware>();
             app.UseHttpsRedirection();
 
             app.UseAuthorization();

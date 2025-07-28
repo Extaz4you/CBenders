@@ -10,18 +10,14 @@ namespace CBenders.Endpoints.Controllers
     public class OrdersController : ControllerBase
     {
         private OrderService service;
-        private ILogger<OrdersController> logger;
-
-        public OrdersController(OrderService orderService, ILogger<OrdersController> log)
+        public OrdersController(OrderService orderService)
         {
             service = orderService;
-            logger = log;
         }
 
         [HttpGet]
         public async Task<IEnumerable<Order>> GetAll()
         {
-            logger.Log(LogLevel.Information, "try get all");
             return await service.GetAll();
         }
     }
